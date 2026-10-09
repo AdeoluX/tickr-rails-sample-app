@@ -1,0 +1,16 @@
+# One command: docker compose up --build, then open http://localhost:4100
+# Settings come from backend/.env. If Tickr Rails runs on this machine, set
+# TICKR_BASE_URL=http://host.docker.internal:3001 there, and the webhook URL to
+# http://host.docker.internal:4100/webhooks/tickr in Tickr Rails.
+services:
+  app:
+    build: .
+    env_file: backend/.env
+    ports:
+      - "4100:4100"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"   # lets Linux reach the host like macOS and Windows do
+    volumes:
+      - members-data:/app/backend/data
+volumes:
+  members-data:
